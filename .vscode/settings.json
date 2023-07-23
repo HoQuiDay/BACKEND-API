@@ -6,5 +6,5 @@
   "editor.fontSize": 18,
   "prettier.trailingComma": "all",
   "prettier.quoteProps": "consistent",
-  "prettier.printWidth": 100
+  "prettier.printWidth": 120
 }
