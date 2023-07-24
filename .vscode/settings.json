@@ -4,7 +4,7 @@
   "prettier.htmlWhitespaceSensitivity": "ignore",
   "editor.fontFamily": "Fira Code Medium",
   "editor.fontSize": 18,
-  "prettier.trailingComma": "all",
+  "prettier.trailingComma": "none",
   "prettier.quoteProps": "consistent",
   "prettier.printWidth": 120
 }
