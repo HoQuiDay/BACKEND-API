@@ -1,4 +1,5 @@
 const apiServices = require('../services/apiServices')
+const uploadFileServices = require('../services/uploadFileServices')
 let handleCreateUser = async (req, res) => {
     let user = req.body;
     let message = await apiServices.createUser(user);
@@ -24,11 +25,31 @@ let handleDeleteUser = async (req, res) => {
     let message = await apiServices.deleteUser(userIdDelete);
     return res.status(200).json(message)
 };
+let handleUploadSingleFile = async (req, res) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    } else {
+        file = req.files.importFile;
+        let message = await uploadFileServices.uploadSingleFile(file)
+        return res.status(200).json(message)
+    }
+}
+let handleUploadMultipleFile = async (req, res) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    } else {
+        listFiles = req.files.importFile;
+        let message = await uploadFileServices.uploadMultipleFile(listFiles)
+        return res.status(200).json(message)
+    }
+}
 module.exports = {
     handleCreateUser: handleCreateUser,
     handleGetUsers: handleGetUsers,
     handleEditUser: handleEditUser,
     handleDeleteUser: handleDeleteUser,
+    handleUploadSingleFile: handleUploadSingleFile,
+    handleUploadMultipleFile: handleUploadMultipleFile
 }
 
 
