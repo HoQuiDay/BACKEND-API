@@ -1,4 +1,5 @@
 const Customer = require("../models/customers");
+const aqp = require("api-query-params");
 module.exports = {
   createCustomer: async (customer) => {
     try {
@@ -18,14 +19,22 @@ module.exports = {
       return null;
     }
   },
-  getCustomer: async (customerId) => {
+  getCustomer: async (customer) => {
     try {
-      if (customerId) {
-        let result = await Customer.findById(customerId);
+      if (customer.id) {
+        let result = await Customer.findById(customer.id);
         return result;
       } else {
-        let result = await Customer.find({});
-        return result;
+        if (!customer.page && !customer.limit) {
+          let result = await Customer.find({});
+          return result;
+        } else {
+          let offset = (customer.page - 1) * customer.limit;
+          let { filter } = aqp(customer);
+          delete filter.page;
+          let result = await Customer.find(filter).limit(customer.limit).skip(offset).exec();
+          return result;
+        }
       }
     } catch (error) {
       console.log("🚀 >>>>> createCustomer: >>>>> error:", error);
@@ -53,7 +62,7 @@ module.exports = {
   deleteListCustomer: async (listCustomerID) => {
     try {
       let result = await Customer.delete({ _id: { $in: listCustomerID } });
-      console.log("🚀 >>>>> deleteListCustomer: >>>>> result:", result);
+
       return result;
     } catch (error) {
       console.log("🚀 >>>>> createCustomer: >>>>> error:", error);

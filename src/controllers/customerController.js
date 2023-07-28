@@ -46,7 +46,7 @@ module.exports = {
     }
   },
   handleGetCustomer: async (req, res) => {
-    let result = await getCustomer(req.query.id);
+    let result = await getCustomer(req.query);
     if (result) {
       return res.status(200).json({
         EC: 0,
